@@ -38,7 +38,7 @@ flowchart TD
 
 ## 🧠 Machine Learning Model
 
-- **Algorithm:** Linear Regression (Scikit-learn)
+- **Algorithm:** Random Forest (Scikit-learn)
 - **Dataset:** California Housing Dataset  
 - **Features:**
   - `MedInc` – Median Income  
@@ -57,7 +57,7 @@ The model was trained using Scikit-learn, serialized via **joblib**, and stored 
 | Component | Tool / Framework |
 |------------|------------------|
 | API | FastAPI |
-| ML | Scikit-learn, Pandas, NumPy |
+| ML | Scikit-learn, Pandas, NumPy, mlflow |
 | Automation | n8n Cloud |
 | Deployment | Render Cloud |
 | Language | Python 3.10+ |
@@ -95,8 +95,8 @@ The model was trained using Scikit-learn, serialized via **joblib**, and stored 
 
 **n8n Nodes Used:**
 1. 🟢 **Webhook Node** – Receives FastAPI request  
-2. ⚙️ **Set Node** – Maps and structures incoming JSON  
-3. 🔁 **HTTP Request Node** – Runs prediction logic or external call  
+2. 🔁 **HTTP Request Node** – Runs prediction logic or external call  
+3. ⚙️ **Set Node** – Maps and structures incoming JSON  
 4. 🟢 **Webhook Response Node** – Returns JSON with predicted price  
 
 ### Production Webhook:
