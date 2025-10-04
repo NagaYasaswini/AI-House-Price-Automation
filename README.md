@@ -18,14 +18,14 @@ This project combines **Machine Learning + MLOps + Automation**, and it is produ
 
 ## 🧩 Architecture
 
-```mermaid
+
 flowchart TD
     A[User Input / API Call] --> B[FastAPI App on Render]
     B --> C[n8n Webhook (Cloud)]
     C --> D[ML Model Prediction Script]
     D --> E[n8n Webhook Response Node]
     E --> F[JSON Output → Render → User]
-```
+
 
 ### Workflow
 1. User submits housing data to `/predict` endpoint on FastAPI.  
