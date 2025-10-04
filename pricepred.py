@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request, Form, Depends, Header, HTTPException, status
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import joblib
 import requests
@@ -9,6 +10,9 @@ import numpy as np
 # 1️⃣ Initialize app & templates
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+
+def home():
+    return {"message": "Render FastAPI is live!"}
 
 # 2️⃣ Load trained model
 model = joblib.load("models/best_model_RandomForest.joblib")
@@ -95,3 +99,9 @@ def predict_api(features: HouseFeatures):
         "Estimated Price": f"${prediction:,.2f}",
         "Raw Value": prediction
     })
+
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
