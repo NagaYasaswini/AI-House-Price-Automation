@@ -1,0 +1,1 @@
+[('scaler', RobustScaler()), ('svm', SVR(C=10, epsilon=0.2))]

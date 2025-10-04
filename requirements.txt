@@ -1,0 +1,12 @@
+pandas
+numpy
+Scikit-learn
+joblib
+mlflow
+statsmodels
+seaborn
+matplotlib
+n8n
+FastAPI
+uvicorn
+docker

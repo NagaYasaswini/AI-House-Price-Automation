@@ -1,0 +1,14 @@
+artifact_uri: file:///c:/Users/yash5/OneDrive/Desktop/AI-House%20Price%20Prediction/mlruns/193584186659144501/880d1a5ca6cf40bbb0f6f1794b3fdb51/artifacts
+end_time: 1759506630552
+entry_point_name: ''
+experiment_id: '193584186659144501'
+lifecycle_stage: active
+run_id: 880d1a5ca6cf40bbb0f6f1794b3fdb51
+run_name: RandomForest
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1759506592983
+status: 3
+tags: []
+user_id: yash5

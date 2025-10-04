@@ -1,0 +1,184 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "house-price",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "9f8ce8b8-84cf-4e2a-a46c-226fe9ab47a3",
+      "name": "Webhook",
+      "webhookId": "ca9ed98c-a985-49ac-b503-12e1f49ee63b"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://sherrie-legalistic-prayerfully.ngrok-free.dev/predict_api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "changeme123"
+            },
+            {
+              "name": "Content-Type",
+              "value": "=application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "MedInc",
+              "value": "={{ $json[\"body\"][\"features\"][0] }}"
+            },
+            {
+              "name": "HouseAge",
+              "value": "={{ $json[\"body\"][\"features\"][1] }}"
+            },
+            {
+              "name": "AveRooms",
+              "value": "={{ $json[\"body\"][\"features\"][2] }}"
+            },
+            {
+              "name": "AveBedrms",
+              "value": "={{ $json[\"body\"][\"features\"][3] }}"
+            },
+            {
+              "name": "Population",
+              "value": "={{ $json[\"body\"][\"features\"][4] }}"
+            },
+            {
+              "name": "AveOccup",
+              "value": "={{ $json[\"body\"][\"features\"][5] }}"
+            },
+            {
+              "name": "Latitude",
+              "value": "={{ $json[\"body\"][\"features\"][6] }}"
+            },
+            {
+              "name": "Longitude",
+              "value": "={{ $json[\"body\"][\"features\"][7] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "febea415-44a4-4458-a3c6-27ed2e0cc3f3",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "97f75115-d253-4235-9a25-ec5f3b07528c",
+              "name": "prediction_text",
+              "value": "={{$node[\"HTTP Request\"].json[\"Estimated Price\"]}}\n",
+              "type": "string"
+            },
+            {
+              "id": "e9a591a3-46e0-486a-a988-7aeeb6a3dfb9",
+              "name": "prediction_value",
+              "value": "={{$node[\"HTTP Request\"].json[\"Raw Value\"]}}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "a0b3475a-70bc-4dbd-8161-fb20e989aea2",
+      "name": "Edit Fields",
+      "alwaysOutputData": false,
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"prediction\": $(\"HTTP Request\").item.json[\"Raw Value\"] } }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        624,
+        0
+      ],
+      "id": "20e2d804-bfac-4ae0-8350-30f0a3e76a9e",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": -1
+  },
+  "versionId": "0b6666f7-7a36-4a22-ab6f-3662b0e772f7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "da40a0be4fc017c5215b14e02593a80e6c3ab11ca02161ac35cbe3933d796f40"
+  },
+  "id": "vrQFR5LyzFWGghn8",
+  "tags": []
+}

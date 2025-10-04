@@ -1,0 +1,22 @@
+artifact_path: file:///c:/Users/yash5/OneDrive/Desktop/AI-House%20Price%20Prediction/mlruns/193584186659144501/models/m-f66f721b14494b6682b859405ed42bda/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.5
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+mlflow_version: 3.4.0
+model_id: m-f66f721b14494b6682b859405ed42bda
+model_size_bytes: 46136882
+model_uuid: m-f66f721b14494b6682b859405ed42bda
+prompts: null
+run_id: d692dbee5cf8497ca94d9bd93129b271
+utc_time_created: '2025-10-02 19:07:51.578538'

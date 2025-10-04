@@ -1,0 +1,10 @@
+artifact_location: file:///c:/Users/yash5/OneDrive/Desktop/AI-House%20Price%20Prediction/mlruns/193584186659144501/models/m-75b59a5804214e13ba9d151ee3ac3b83/artifacts
+creation_timestamp: 1759432579772
+experiment_id: '193584186659144501'
+last_updated_timestamp: 1759432581065
+model_id: m-75b59a5804214e13ba9d151ee3ac3b83
+model_type: null
+name: model
+source_run_id: 01bb7f6ee4d242b08e022a5c9f51da5f
+status: 2
+status_message: null

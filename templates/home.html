@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🏡 House Price Prediction</title>
+    <style>
+        body { font-family: Arial; margin: 50px; text-align: center; }
+        form { margin: 20px auto; width: 300px; }
+        input, select { width: 100%; padding: 10px; margin: 5px 0; }
+        button { padding: 10px 20px; background: green; color: white; border: none; cursor: pointer; }
+        button:hover { background: darkgreen; }
+        .result { margin-top: 20px; font-size: 1.2em; color: darkblue; }
+    </style>
+</head>
+<body>
+    <h1>🏡 House Price Prediction</h1>
+    <form method="post" action="/predict_ui">
+        <label>Median income:</label>
+        <input type="number" step="any" name="MedInc" required>
+
+        <label>Age of house:</label>
+        <input type="number" step="any" name="HouseAge" required>
+
+        <label>Avg rooms:</label>
+        <input type="number" step="any" name="AveRooms" required>
+
+        <label>Avg bedrooms:</label>
+        <input type="number" step="any" name="AveBedrms" required>
+
+        <label>Population:</label>
+        <input type="number" step="any" name="Population" required>
+
+        <label>Avg occupants per household:</label>
+        <input type="number" step="any" name="AveOccup" required>
+
+        <label>Location latitude:</label>
+        <input type="number" step="any" name="Latitude" required>
+
+        <label>Location longitude:</label>
+        <input type="number" step="any" name="Longitude" required>
+
+        <button type="submit">Predict Price</button>
+    </form>
+
+    {% if prediction %}
+        <h3 style="color:green;">{{ prediction }}</h3>
+    {% endif %}
+
+    {% if error %}
+        <h3 style="color:red;">{{ error }}</h3>
+    {% endif %}
+</body>
+</html>

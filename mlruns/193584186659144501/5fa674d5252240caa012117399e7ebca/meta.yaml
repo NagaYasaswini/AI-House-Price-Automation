@@ -1,0 +1,14 @@
+artifact_uri: file:///c:/Users/yash5/OneDrive/Desktop/AI-House%20Price%20Prediction/mlruns/193584186659144501/5fa674d5252240caa012117399e7ebca/artifacts
+end_time: 1759466789418
+entry_point_name: ''
+experiment_id: '193584186659144501'
+lifecycle_stage: active
+run_id: 5fa674d5252240caa012117399e7ebca
+run_name: SVM_RobustScaled
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1759466742391
+status: 3
+tags: []
+user_id: yash5

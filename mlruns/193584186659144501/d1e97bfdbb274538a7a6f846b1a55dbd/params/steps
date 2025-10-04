@@ -1,0 +1,1 @@
+[('scaler', RobustScaler()), ('ridge', RidgeCV(alphas=[0.1, 1.0, 10.0, 100.0], cv=5))]
