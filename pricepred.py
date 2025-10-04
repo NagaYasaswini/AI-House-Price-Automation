@@ -40,7 +40,7 @@ def predict_ui(
     Latitude: float = Form(...),
     Longitude: float = Form(...)
 ):
-    n8n_webhook_url = "https://tabjulnagayasaswini.app.n8n.cloud/webhook-test/house-price"
+    n8n_webhook_url = "https://tabjulnagayasaswini.app.n8n.cloud/webhook/house-price"
     payload = {
         "features": [MedInc, HouseAge, AveRooms, AveBedrms, Population, AveOccup, Latitude, Longitude]
     }
