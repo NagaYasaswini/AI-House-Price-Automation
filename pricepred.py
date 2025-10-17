@@ -44,7 +44,7 @@ def predict_ui(
     Latitude: float = Form(...),
     Longitude: float = Form(...)
 ):
-    n8n_webhook_url = "https://tabjulnagayasaswini.app.n8n.cloud/webhook/house-price"
+    n8n_webhook_url = "http://localhost:5678/webhook/house-price"
     payload = {
         "features": [MedInc, HouseAge, AveRooms, AveBedrms, Population, AveOccup, Latitude, Longitude]
     }
@@ -104,4 +104,4 @@ def predict_api(features: HouseFeatures):
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+   uvicorn.run(app, host="0.0.0.0", port=port)
