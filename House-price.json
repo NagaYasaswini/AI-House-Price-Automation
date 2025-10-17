@@ -1,0 +1,181 @@
+{
+  "name": "House-price",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "house-price",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ed1ec2af-be84-4ef2-ae6b-d92f04147a36",
+      "name": "Webhook",
+      "webhookId": "ca9ed98c-a985-49ac-b503-12e1f49ee63b"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "97f75115-d253-4235-9a25-ec5f3b07528c",
+              "name": "prediction_text",
+              "value": "={{$node[\"HTTP Request\"].json[\"prediction\"]}}\n",
+              "type": "string"
+            },
+            {
+              "id": "e9a591a3-46e0-486a-a988-7aeeb6a3dfb9",
+              "name": "prediction_value",
+              "value": "={{$node[\"HTTP Request\"].json[\"Raw Value\"]}}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        432,
+        0
+      ],
+      "id": "5c8bdf17-a508-4a4b-a046-628c139820d8",
+      "name": "Edit Fields",
+      "alwaysOutputData": false,
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"prediction\": $(\"HTTP Request\").item.json[\"Raw Value\"] } }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        656,
+        0
+      ],
+      "id": "2f278460-28d3-4398-89db-82262a3e253f",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8000/predict_api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "changeme123"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "MedInc",
+              "value": "={{$json [\"body\"] [\"features\"][0]}}"
+            },
+            {
+              "name": "HouseAge",
+              "value": "={{$json [\"body\"] [\"features\"][1]}}"
+            },
+            {
+              "name": "AveRooms",
+              "value": "={{$json [\"body\"] [\"features\"][2]}}"
+            },
+            {
+              "name": "AveBedrms",
+              "value": "={{$json [\"body\"] [\"features\"][3]}}"
+            },
+            {
+              "name": "Population",
+              "value": "={{$json [\"body\"] [\"features\"][4]}}"
+            },
+            {
+              "name": "AveOccup",
+              "value": "={{$json [\"body\"] [\"features\"][5]}}"
+            },
+            {
+              "name": "Latitude",
+              "value": "={{$json [\"body\"] [\"features\"][6]}}"
+            },
+            {
+              "name": "Longitude",
+              "value": "={{$json [\"body\"] [\"features\"][7]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a0af0c14-e22d-4df8-ae98-d7aa89d85e2d",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a8d27d55-da88-4314-847f-98ff2a245dee",
+  "meta": {
+    "instanceId": "3a52e775efabbe013ceca6c5357e1e9fe04d240b778f52ae74779ffa4d391c71"
+  },
+  "id": "Bp3UIK7IVSTFJnkM",
+  "tags": []
+}
