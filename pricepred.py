@@ -21,7 +21,7 @@ def home():
 model = joblib.load("models/best_model_RandomForest.joblib")
 
 # Optional API Key security for n8n calls
-api-key = os.getenv('API_KEY')
+api-key = os.getenv("API_KEY")
 def verify_api_key(x_api_key: str = Header(...)):
     if x_api_key != api-key:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API Key")
