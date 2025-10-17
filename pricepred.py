@@ -1,12 +1,15 @@
 from fastapi import FastAPI, Request, Form, Depends, Header, HTTPException, status
+import os
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import joblib
 import requests
+from requests.auth import HTTPBasicAuth
 import numpy as np
 
+load_dotenv()
 # 1️⃣ Initialize app & templates
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -18,9 +21,9 @@ def home():
 model = joblib.load("models/best_model_RandomForest.joblib")
 
 # Optional API Key security for n8n calls
-API_KEY = "changeme123"
+api-key = os.getenv('API_KEY')
 def verify_api_key(x_api_key: str = Header(...)):
-    if x_api_key != API_KEY:
+    if x_api_key != api-key:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API Key")
     return x_api_key
 
@@ -44,13 +47,15 @@ def predict_ui(
     Latitude: float = Form(...),
     Longitude: float = Form(...)
 ):
-    n8n_webhook_url = "https://sherrie-legalistic-prayerfully.ngrok-free.dev/webhook/house-price"
+    n8n_webhook_url = os.getenv("N8N_WEBHOOK_URL")
+    n8n_user = os.getenv("N8N_USERNAME")
+    n8n_pass = os.getenv("N8N_PASSWORD")
     payload = {
         "features": [MedInc, HouseAge, AveRooms, AveBedrms, Population, AveOccup, Latitude, Longitude]
     }
 
     try:
-        response = requests.post(n8n_webhook_url, json=payload)
+        response = requests.post(n8n_webhook_url, json=payload, auth=HTTPBasicAuth(n8n_user, n8n_pass))
         result = response.json()
 
         # Safely extract the prediction
