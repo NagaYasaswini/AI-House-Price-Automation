@@ -8,6 +8,8 @@ import joblib
 import requests
 from requests.auth import HTTPBasicAuth
 import numpy as np
+from dotenv import load_dotenv
+
 
 load_dotenv()
 # 1️⃣ Initialize app & templates
