@@ -14,7 +14,7 @@
         0,
         0
       ],
-      "id": "ed1ec2af-be84-4ef2-ae6b-d92f04147a36",
+      "id": "264372aa-4cf2-4e95-8fab-29bd9a63bf57",
       "name": "Webhook",
       "webhookId": "ca9ed98c-a985-49ac-b503-12e1f49ee63b"
     },
@@ -44,7 +44,7 @@
         432,
         0
       ],
-      "id": "5c8bdf17-a508-4a4b-a046-628c139820d8",
+      "id": "5ac41b41-d14d-468f-a32a-45bf4d81ccca",
       "name": "Edit Fields",
       "alwaysOutputData": false,
       "executeOnce": false
@@ -63,13 +63,13 @@
         656,
         0
       ],
-      "id": "2f278460-28d3-4398-89db-82262a3e253f",
+      "id": "45b46b5e-fb94-4e45-8150-758f6a24abaa",
       "name": "Respond to Webhook"
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "http://127.0.0.1:8000/predict_api",
+        "url": "https://ai-house-price-automation-1.onrender.com/predict_api",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -128,7 +128,7 @@
         208,
         0
       ],
-      "id": "a0af0c14-e22d-4df8-ae98-d7aa89d85e2d",
+      "id": "a6af5cac-c03e-477d-b1fa-5795d9ee399f",
       "name": "HTTP Request"
     }
   ],
@@ -170,12 +170,15 @@
   },
   "active": true,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": -1,
+    "availableInMCP": false
   },
-  "versionId": "a8d27d55-da88-4314-847f-98ff2a245dee",
+  "versionId": "e8184459-c268-49a1-aaf6-0e46d045329b",
   "meta": {
-    "instanceId": "3a52e775efabbe013ceca6c5357e1e9fe04d240b778f52ae74779ffa4d391c71"
+    "instanceId": "75c2bae93897cb85352a2f649234995e546ce047608834a8e54433acd2f7b6b6"
   },
-  "id": "Bp3UIK7IVSTFJnkM",
+  "id": "rtN41Xe2aU3t89Fu",
   "tags": []
 }
