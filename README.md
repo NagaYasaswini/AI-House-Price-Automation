@@ -1,38 +1,112 @@
-# 🏡 AI – House Price Prediction Automation (FastAPI + n8n + Render)
+# 🏡 AI House Price Prediction — Automated MLOps Pipeline
 
-This project integrates a **Machine Learning model** deployed via **FastAPI** with an **n8n automation workflow** that handles API orchestration and response management.  
-The goal is to automate the prediction of house prices using a fully cloud-deployed setup — no manual intervention, no local dependencies.
+### 🚀 End-to-End ML Web App powered by **FastAPI**, **n8n**, **MLflow**, and **Render Cloud**
 
 ---
 
-## 🚀 Project Overview
+## 📘 Overview
+**AI House Price Prediction** is a fully automated **end-to-end MLOps project** that predicts house prices based on key property features.
 
-The **AI – House Price Prediction** system demonstrates how to:
-- Build an ML regression model with Scikit-learn  
-- Deploy it using **FastAPI** on **Render Cloud**  
-- Automate workflow execution and prediction handling through **n8n Cloud**
+This system brings together:
+- 🧠 **Machine Learning models**, tracked and validated with **MLflow**
+- ⚙️ **FastAPI backend** to handle user inputs and serve predictions
+- 🔄 **n8n workflow automation** for model orchestration and pipeline automation
+- 🗄️ **PostgreSQL** for persistent workflow storage
+- ☁️ **Render** for seamless deployment of all services (FastAPI, n8n, and PostgreSQL)
 
 This project combines **Machine Learning + MLOps + Automation**, and it is production-ready.
+> The project demonstrates the full lifecycle of an ML solution — from model experimentation (MLflow) → deployment (FastAPI + n8n) → automation (n8n + Render).
 
 ---
 
-## 🧩 Architecture
+## 🧰 Tech Stack
+
+| Component | Tool / Framework |
+|------------|------------------|
+| ML | Scikit-learn, Pandas, NumPy, mlflow |
+| Backend API | **FastAPI** |
+| Workflow Automation | **n8n** |
+| Database | **PostgreSQL (Render)** |
+| Deployment | **Render Cloud Platform** |
+| Containerization | **Docker** |
+| Language | **Python 3.11** |
+| Model Storage | **joblib** |
+
+---
+
+## 🌐 Live Demo
+
+| Service | Description | URL |
+|----------|--------------|------|
+| 🧠 FastAPI App | Main user interface (predicts house price) | **[https://ai-house-price-automation-1.onrender.com](https://ai-house-price-automation-1.onrender.com)** |
+| ⚙️ n8n Workflow | Backend workflow automation (deployed via Docker) | **[https://ai-house-price-n8n.onrender.com](https://ai-house-price-n8n.onrender.com)** |
+| 🗄️ PostgreSQL DB | Persistent data storage | Internal (Render) |
+
+> 🟢 Visit the FastAPI link to test predictions — no manual n8n activation required.  
+> The backend workflow is triggered automatically.
+
+---
+
+## 🧩 Architecture Flow
+
+```text
+          ┌──────────────────────┐
+          │   MLflow Tracking    │
+          │  (model experiments) │
+          └──────────┬───────────┘
+                     │
+                     ▼
+         ┌────────────────────────────┐
+         │   Trained Model (.joblib)  │
+         │   validated via MLflow     │
+         └──────────┬─────────────────┘
+                    │
+                    ▼
+     ┌──────────────────────────────┐
+     │        FastAPI Backend       │
+     │  /predict_ui | /predict_api  │
+     └──────────┬───────────────────┘
+                │
+                ▼
+https://ai-house-price-n8n.onrender.com/webhook/house-price
+                │
+                ▼
+     ┌──────────────────────────────┐
+     │          n8n Workflow        │
+     │ (executes ML model + returns │
+     │       prediction output)     │
+     └──────────────────────────────┘
+                │
+                ▼
+       ✅ Predicted Price Returned
+```
 
 
-flowchart TD
-    A[User Input / API Call] --> B[FastAPI App on Render]
-    B --> C[n8n Webhook (Cloud)]
-    C --> D[ML Model Prediction Script]
-    D --> E[n8n Webhook Response Node]
-    E --> F[JSON Output → Render → User]
+---
 
+## ⚙️ Project Structure
 
-### Workflow
-1. User submits housing data to `/predict` endpoint on FastAPI.  
-2. FastAPI sends the data to an **n8n Webhook**.  
-3. n8n runs the prediction logic (via Set + HTTP Request nodes).  
-4. The ML model predicts the price.  
-5. n8n sends the response back as JSON, and FastAPI displays it to the user.
+```bash
+📦 ai-house-price-prediction
+│
+├── main.py                        # FastAPI main app
+├── model/
+│   ├── house_price_model.joblib   # Trained ML model
+│   ├── mlruns/                    # MLflow tracking data
+│
+├── templates/
+│   ├── home.html                  # Input page
+│   └── result.html                # Output page
+│
+├── n8n/
+│   ├── Dockerfile                 # n8n deployment setup
+│   ├── House-price.json           # Workflow definition
+│
+├── requirements.txt               # Python dependencies
+├── .dockerignore
+├── README.md
+└── render.yaml (optional)
+```
 
 ---
 
@@ -48,29 +122,68 @@ flowchart TD
   - `Population` – Population of the block  
   - `AveOccup` – Average occupancy  
 
-The model was trained using Scikit-learn, serialized via **joblib**, and stored as `model.joblib`.
+---
+
+## 🧠 MLflow Integration Highlights
+
+🧩 **Model Tracking**
+- Logged model performance metrics such as R², MAE, and RMSE.  
+- Compared multiple regression models to select the best-performing one.
+
+⚙️ **Experiment Management**
+- Version-controlled all experiments with MLflow’s local tracking server.  
+- Saved model artifacts for reproducibility.
+
+✅ **Model Registry**
+- Final selected model exported as a `.joblib` file for deployment.  
+- Ensures model lineage and transparency during deployment.
 
 ---
 
-## 🧰 Tech Stack
+## 🐳 Deployment Setup on Render
 
-| Component | Tool / Framework |
-|------------|------------------|
-| API | FastAPI |
-| ML | Scikit-learn, Pandas, NumPy, mlflow |
-| Automation | n8n Cloud |
-| Deployment | Render Cloud |
-| Language | Python 3.10+ |
-| Model Storage | joblib |
+### 1️⃣ FastAPI App
+- Runtime: **Python 3**
+- Start Command:
+  ```bash
+  uvicorn main:app --host 0.0.0.0 --port 10000
+  ```
+
+### 2️⃣ n8n Workflow
+- Runtime: **Docker**
+- Dockerfile:
+  ```dockerfile
+  FROM n8nio/n8n:latest
+  WORKDIR /data
+  COPY ./House-price.json /data/workflows/House-price.json
+  ENV N8N_IMPORT_EXPORT_DIR=/data/workflows
+  ENV N8N_IMPORT_EXPORT_OVERWRITE=true
+  ENV N8N_AUTO_ACTIVATE_WORKFLOW=true
+  ENV N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false
+  ENTRYPOINT ["/bin/sh", "-c", "n8n import:workflow --input=/data/workflows/House-price.json && n8n start"]
+  ```
+
+### 3️⃣ PostgreSQL Database
+- Added via **Render → New → PostgreSQL**
+- Environment variable in n8n service:
+  ```
+  DATABASE_URL = postgresql://<user>:<password>@<host>:5432/database_houseprice
+  ```
 
 ---
 
-## 🔗 Live Demo
+## 🧩 Key Features
+✅ ML model versioning and validation via MLflow  
+✅ End-to-end automation with n8n (no manual runs)  
+✅ Persistent workflow storage via PostgreSQL  
+✅ Fully containerized deployment using Docker  
+✅ Scalable cloud setup (FastAPI + n8n + DB)  
 
-### 🟢 FastAPI App on Render
-👉 **[https://house-price-api.onrender.com/docs](https://house-price-api.onrender.com/docs)**
+---
 
-**Sample Input:**
+## 🧠 Example Use Case
+**Input example:**
+```
 ```json
 {
   "MedInc": 5,
@@ -88,110 +201,49 @@ The model was trained using Scikit-learn, serialized via **joblib**, and stored 
   "prediction": 4.23
 }
 ```
+---
+
+## 🔒 Environment Variables Summary
+
+| Variable | Purpose |
+|-----------|----------|
+| `DATABASE_URL` | Connects n8n to PostgreSQL |
+| `N8N_HOST` | n8n domain |
+| `N8N_PROTOCOL` | Should be `https` |
+| `N8N_TRUSTED_PROXIES` | Enables proxy trust on Render |
+| `WEBHOOK_URL` | Base webhook URL |
+| `N8N_BASIC_AUTH_ACTIVE` | Activates n8n UI auth |
+| `N8N_BASIC_AUTH_USER` | n8n username |
+| `N8N_BASIC_AUTH_PASSWORD` | n8n password |
+| `MLFLOW_TRACKING_URI` | Local MLflow tracking URI (optional) |
 
 ---
 
-## ⚙️ n8n Workflow Setup
-
-**n8n Nodes Used:**
-1. 🟢 **Webhook Node** – Receives FastAPI request  
-2. 🔁 **HTTP Request Node** – Runs prediction logic or external call  
-3. ⚙️ **Set Node** – Maps and structures incoming JSON  
-4. 🟢 **Webhook Response Node** – Returns JSON with predicted price  
-
-### Production Webhook:
-```
-https://tabjulnagayasaswini.app.n8n.cloud/webhook/house-price
-```
-
-Ensure your n8n workflow is **Active (green circle ON)** before calling from Render.
+## 🎯 Future Improvements
+- Deploy MLflow tracking server on Render or AWS  
+- Integrate model re-training workflow inside n8n  
+- Add real-time monitoring dashboards  
+- Create a React-based interactive frontend  
 
 ---
 
-## 🗂️ Project Structure
-
-```
-house-price-app/
-│
-├── main.py                 # FastAPI application
-├── hpMlmodel.py            # ML model training/prediction script
-├── model.joblib            # Trained model
-├── requirements.txt        # Dependencies
-└── README.md               # Project documentation
-```
-
----
-
-## ⚙️ Render Deployment Details
-
-**Build Command:**
-```
-pip install -r requirements.txt
-```
-
-**Start Command:**
-```
-uvicorn main:app --host 0.0.0.0 --port $PORT
-```
-
-Render automatically injects the `$PORT` variable, so no manual port setting is needed.
-
----
-
-## 🧪 Run Locally
-
-To test locally before deployment:
-
-```bash
-git clone https://github.com/<your-username>/AI-House-Price-Prediction.git
-cd AI-House-Price-Prediction
-pip install -r requirements.txt
-uvicorn main:app --reload
-```
-
-Then open:  
-👉 [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
-
----
-
-## 🧭 Example Prediction Flow
-
-| Step | Action | Tool |
-|------|---------|------|
-| 1️⃣ | User submits input | FastAPI |
-| 2️⃣ | FastAPI sends JSON payload | HTTP POST |
-| 3️⃣ | n8n receives and processes | Workflow |
-| 4️⃣ | Model predicts | Scikit-learn |
-| 5️⃣ | Response sent to user | JSON |
-
----
-
-## 📈 Future Enhancements
-
-- 🎨 Add a **Streamlit or Gradio** front-end for a user-friendly UI  
-- 💾 Store predictions in a **PostgreSQL** database  
-- 📊 Integrate **MLflow** for experiment tracking  
-- 🔄 Automate model retraining using **n8n cron triggers**  
-- ☁️ Deploy model artifacts to **AWS S3 or Hugging Face Spaces**
-
----
-
-## 👩‍💻 Author
-
+## 🧑‍💻 Author
 **Naga Yasaswini Tabjul**  
 Associate Analyst @ Deloitte | Aspiring Machine Learning Engineer  
 
-🌐 **Portfolio:** [tabjulnagayasaswini.app](https://tabjulnagayasaswini.app)  
-💼 **LinkedIn:** [linkedin.com/in/nagayasaswini](https://www.linkedin.com/in/nagayasaswini)  
-📘 **GitHub:** [github.com/<your-username>](https://github.com/<your-username>)  
+📫 **Connect with me:**  
+- [LinkedIn](https://www.linkedin.com/in/naga-yasaswini-tabjul)  
+- [GitHub](https://github.com/NagaYasaswini)
 
 ---
 
-## 🏁 Summary
+## 🌟 Summary
 
-✅ Built and deployed a real-world ML model using **FastAPI**  
-✅ Automated prediction flow through **n8n Cloud**  
-✅ Hosted API publicly via **Render Cloud**  
-✅ Demonstrates practical MLOps deployment and cloud integration
+This project showcases:
+- **Practical MLOps** using MLflow for model tracking  
+- **Automation-first approach** with n8n  
+- **Cloud-native deployment** using Render  
+- **FastAPI-based prediction service** integrated with workflow orchestration  
 
-> 💡 *"From model training to automated cloud prediction — this project unites Machine Learning, FastAPI, and n8n automation into a seamless AI service."*
+> 🏁 Try it live:  
+> 👉 **[AI House Price Prediction App](https://ai-house-price-automation-1.onrender.com/)**  
