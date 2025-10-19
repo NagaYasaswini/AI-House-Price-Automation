@@ -247,4 +247,4 @@ This project showcases:
 
 > 🏁 Try it live:  
 > 👉 **[AI House Price Prediction App](https://ai-house-price-automation-1.onrender.com/)**    
-> 👉 **[n8n actiavtion](https://ai-house-price-n8n.onrender.com)**  
+> 👉 **[n8n activation](https://ai-house-price-n8n.onrender.com)**  
