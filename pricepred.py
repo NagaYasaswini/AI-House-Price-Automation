@@ -19,6 +19,28 @@ load_dotenv()
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
+# 🔹 Auto-activate n8n workflow when FastAPI starts
+@app.on_event("startup")
+def activate_n8n_workflow():
+    """Automatically activate n8n workflow on app startup."""
+    n8n_url = os.getenv("N8N_ACTIVATE_URL")
+    n8n_user = os.getenv("N8N_BASIC_AUTH_USER")
+    n8n_pass = os.getenv("N8N_BASIC_AUTH_PASSWORD")
+
+    if not all([n8n_url, n8n_user, n8n_pass]):
+        logging.warning("⚠️ N8N activation skipped: Missing environment variables.")
+        return
+
+    try:
+        response = requests.post(n8n_url, auth=(n8n_user, n8n_pass))
+        if response.status_code == 200:
+            logging.info("✅ n8n workflow activated successfully on startup.")
+        else:
+            logging.warning(f"⚠️ n8n activation failed: {response.status_code} - {response.text}")
+    except Exception as e:
+        logging.error(f"❌ Error activating n8n workflow: {e}")
+
+
 
 @app.get("/live")
 def home():
