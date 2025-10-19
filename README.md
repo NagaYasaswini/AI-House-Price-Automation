@@ -246,4 +246,5 @@ This project showcases:
 - **FastAPI-based prediction service** integrated with workflow orchestration  
 
 > 🏁 Try it live:  
-> 👉 **[AI House Price Prediction App](https://ai-house-price-automation-1.onrender.com/)**  
+> 👉 **[AI House Price Prediction App](https://ai-house-price-automation-1.onrender.com/)**    
+> 👉 **[n8n activation](https://ai-house-price-n8n.onrender.com)**  
